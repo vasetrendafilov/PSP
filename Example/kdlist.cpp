@@ -6,7 +6,7 @@ typedef int var;
 
 struct Node{
   var item;
-  Node *next;
+  Node *next,*prev;
 };
 struct List{
   int brel;
@@ -14,6 +14,7 @@ struct List{
   void init();
   void push(var x,bool back);
   void pop(bool back);
+  void popel(Node *temp);
   void remove();
   void print();
 };
@@ -22,16 +23,20 @@ void List::push(var x,bool back = false){
   Node *temp = new Node;
   temp->item = x;
   if(head == NULL){
-    temp->next= temp;
+    temp->next = temp->prev = temp;//tka
     head = tail = temp;
   }else if(back){
     temp->next = head;
+    head->prev = temp;//tka
     head = temp;
     tail->next = head;
+    head->prev = tail;//tak
   }else{
     tail->next = temp;
+    temp->prev = tail;//tak
     tail=temp;
     tail->next = head;
+    head->prev = tail;//tak
   }
   brel++;
 }
@@ -43,16 +48,26 @@ void List::pop(bool back = false){
   if(head != NULL){
     if(back){
       tail->next = head->next;
+      head->next->prev = tail;//tak
       delete head;
       head = tail->next;
     }else{
-      Node *temp;
-      for(temp = head;temp->next != tail;temp=temp->next);
-      temp->next = head;
-      delete tail;
-      tail = temp;
+      tail->prev->next = head;//ova celo
+      head->prev = tail->prev;//
+      delete tail;//
+      tail = head->prev;//
     }brel--;
   }
+}
+void List::popel(Node *temp){
+  if(head == temp)
+      head = temp->next;
+  if(tail == temp)
+      tail = temp->prev;
+  temp->prev->next = temp->next;
+  temp->next->prev = temp->prev;
+  delete temp;
+  brel--;
 }
 void List::remove(){
   while(head!=NULL) pop();

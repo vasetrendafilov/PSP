@@ -8,66 +8,73 @@ struct Node{
   var item;
   Node *next;
 };
-
 struct List{
   Node *head;
   void init();
-  void push(var x,bool f);
-  void pop(bool f);
+  void push(var x,int pos);
+  void pop(int pos);
   void remove();
-  void print();
+  void reverse(Node *temp);
 };
 void List::init(){ head = NULL; }
-void List::push(var x,bool f = false){
+void List::push(var x,int pos=100){
   Node *temp = new Node;
   temp->item = x;
-  if(f){
+  temp->next = NULL;
+  if(head == NULL){head = temp; return;}
+  if(pos == 1){
     temp->next = head;
     head = temp;
-  }else{
-    temp->next = NULL;
-    if(head == NULL) head = temp;
-    else{
-      Node *i;
-      for(i = head ; i->next != NULL ; i = i->next);
-      i->next = temp;
-    }
+    return;
   }
+  Node *point = head;
+  for(int i = 0; i < pos-2 && point->next !=NULL ; i++,point = point->next);
+  temp->next = point->next;
+  point->next = temp;
 }
-void List::pop(bool f=false){
-  if(head == NULL)
-    cout<<"Listata e prazna"<<endl;
-  else if(head->next == NULL){
-    delete head;
-    head = NULL;
-  }else if(f){
-    Node *temp = head;
+void List::pop(int pos = 100){
+  Node *temp = head;
+  if(pos == 1){
     head = head->next;
     delete temp;
-  }else{
-    Node *i,*temp;
-    for(i = head ; i->next->next != NULL ; i=i->next);
-     temp = i->next;
-     i->next = NULL;
-     delete temp;
+    return;
   }
+  for(int i = 0; i < pos-2 && temp->next->next !=NULL ; i++,temp = temp->next);
+  Node *temp2 = temp->next;
+  temp->next = temp2->next;
+  delete temp2;
 }
 void List::remove(){
-  while(head!=NULL) pop(true);
+  while(head!=NULL) pop(1);
 }
-void List::print(){
-  for(Node *i = head;i!= NULL;i=i->next)
-   cout<<i->item<<" ";
+void print(Node *temp){
+  if(temp == NULL) return;
+  cout<< temp->item <<" ";
+  return print(temp->next);
+}
+void printr(Node *temp){
+  if(temp == NULL) return;
+  printr(temp->next);
+  cout<< temp->item <<" ";
+}
+void List::reverse(Node *temp){
+  if(temp->next == NULL){
+    head = temp;
+    return;
+  }
+  reverse(temp->next);
+  temp->next->next = temp;
+  temp->next = NULL;
 }
 int main(){
   List a;
   a.init();
-  a.push(10);
   a.push(5);
-  a.push(3,true);
+  a.push(2);
+  a.push(3);
+  a.push(4);
   a.pop();
-  a.print();
+  print(a.head);
   a.remove();
-  a.print();
   return 0;
 }
