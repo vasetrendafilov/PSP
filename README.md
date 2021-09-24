@@ -15,7 +15,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Introduction to data structures. Working with classes and instantiating objects, complex data types. Introduction to C++. Concepts of programming, structures and references and pointers in C++. Functions and overload of functions. Concepts of object oriented programming. Some of the exams are solved in `Ispiti`, a lot of expale snippets in `Example`. Lecture homework in `Auditoriski`.
+Introduction to data structures. Working with classes and instantiating objects, complex data types. Introduction to C++. Concepts of programming, structures and references and pointers in C++. Functions and overload of functions. Concepts of object oriented programming. Some of the exams are solved in `Ispiti`, a lot of example snippets in `Example`. Lecture homework in `Auditoriski`.
 
 
 <!-- LICENSE -->
